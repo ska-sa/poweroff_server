@@ -42,7 +42,7 @@ def main():
 
     app = web.Application()
     app['dry_run'] = args.dry_run
-    app.add_routes([web.post('/poweroff', poweroff)])
+    app.router.add_post('/poweroff', poweroff)
     web.run_app(app, host=args.host, port=args.port)
 
 
