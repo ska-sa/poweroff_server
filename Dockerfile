@@ -16,6 +16,7 @@ RUN cd /tmp/install/poweroff_server && \
 #######################################################################
 
 FROM sdp-docker-registry.kat.ac.za:5000/docker-base-runtime
+LABEL maintainer=sdpdev+poweroff_server@ska.ac.za
 
 COPY --chown=kat:kat --from=build /home/kat/ve3 /home/kat/ve3
 ENV PATH="$PATH_PYTHON3" VIRTUAL_ENV="$VIRTUAL_ENV_PYTHON3"
