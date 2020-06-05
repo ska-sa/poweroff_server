@@ -10,6 +10,9 @@ from aiohttp import web
 
 
 async def poweroff(request: web.Request) -> web.Response:
+    if request.headers.get('X-Poweroff-Server') != '1':
+        return web.json_response({'error': 'X-Poweroff-Server header missing or wrong value'},
+                                 status=400)
     try:
         if not request.app['dry_run']:
             process = await asyncio.create_subprocess_exec(
