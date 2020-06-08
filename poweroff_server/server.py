@@ -10,6 +10,18 @@ from aiohttp import web
 
 
 async def poweroff(request: web.Request) -> web.Response:
+    # This API is not supposed to be used by a web-browser. These headers
+    # aren't guaranteed to be present, but this should reduce the attack
+    # surface for CSRF.
+    for header in ['Origin', 'Referer']:
+        if header in request.headers:
+            return web.json_response({'error': '{} header must not be set'.format(header)},
+                                     status=400)
+    # Require a custom header as CSRF prevention: cross-origin XMLHttpRequest
+    # cannot set custom headers.
+    if request.headers.get('X-Poweroff-Server') != '1':
+        return web.json_response({'error': 'X-Poweroff-Server header missing or wrong value'},
+                                 status=400)
     try:
         if not request.app['dry_run']:
             process = await asyncio.create_subprocess_exec(
