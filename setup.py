@@ -9,7 +9,7 @@ setup(
     description='Trivial webservice that launches a poweroff command',
     packages=find_packages(),
     setup_requires=['katversion'],
-    python_requires='>=3.5',
+    python_requires='>=3.6',
     install_requires=[
         'aiohttp',
     ],
